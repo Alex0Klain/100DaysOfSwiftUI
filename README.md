@@ -8,4 +8,4 @@ Applications for splitting a check between you and your friends.
 
 ![alt text][WeSplitImage]
 
-[WeSplitImage]: https://sun9-70.userapi.com/c853628/v853628919/1be8e2/SG3vwI-Vr9A.jpg "WeSplit on iPhone Simulator"
+[WeSplitImage]: https://sun9-55.userapi.com/c200716/v200716976/3e188/IvJBH9mVSGk.jpg "WeSplit on iPhone Simulator"
