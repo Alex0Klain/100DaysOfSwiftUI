@@ -9,35 +9,62 @@
 import SwiftUI
 
 struct ContentView: View {
-    @State private var showingAlert = false
+    @State private var showingScore = false
+    @State private var scoreTitle = ""
+    
+    @State private var countries = ["Estonia", "France", "Ireland", "Italy", "Nigeria", "Poland", "Russia", "Spain", "UK", "US"].shuffled()
+    @State private var correctAnswer = Int.random(in: 0...2)
     
     var body: some View {
         ZStack {
-//            Color(red: 1, green: 0.8, blue: 0.6).edgesIgnoringSafeArea(.bottom)
-//            LinearGradient(gradient: Gradient(colors: [.blue, .red]), startPoint: .top, endPoint: .bottom)
-//            RadialGradient(gradient: Gradient(colors: [.orange, .blue]), center: .center, startRadius: 5, endRadius: 90)
-            AngularGradient(gradient: Gradient(colors: [.red, .orange, .blue, .green, .pink, .purple]), center: .center)
-            VStack {
-                Button("Show alert") {
-                    self.showingAlert = true
+            LinearGradient(gradient: Gradient(colors: [.blue, .black]), startPoint: .top, endPoint: .bottom)
+                .edgesIgnoringSafeArea(.all)
+            
+            VStack(spacing: 30) {
+                VStack {
+                    Text("Tap the flag of")
+                        .foregroundColor(.white)
+                    Text(countries[correctAnswer])
+                        .foregroundColor(.white)
+                        .font(.largeTitle)
+                        .fontWeight(.black)
                 }
-                .accentColor(.white)
-                .alert(isPresented: $showingAlert) {
-                    Alert(title: Text("Hello it's alert"), message: Text("Some describtion here"), dismissButton: .default(Text("OK")))
-                }
-                Text("Hello Alex").colorScheme(.dark)
-                Button(action: {
-                    print("Button tapped")
-                }) {
-                    HStack {
-                        Image(systemName: "pencil")
-                        Text("Edit")
+                
+                ForEach(0 ..< 3) { number in
+                    Button(action: {
+                        self.flagTapped(number)
+                    }) {
+                        Image(self.countries[number])
+                            .renderingMode(.original)
+                            .clipShape(Capsule())
+                            .overlay(Capsule().stroke(Color.black, lineWidth: 1))
+                            .shadow(color: .black, radius: 2)
                     }
-                    .background(Color.black)
-                    .cornerRadius(10.0)
-                }.accentColor(.white)
+                }
+                
+                Spacer()
+            }
+            .alert(isPresented: $showingScore) {
+                Alert(title: Text(scoreTitle), message: Text("Your score is ???"), dismissButton: .default(Text("Continue")){
+                    self.askQuestion()
+                    })
             }
         }
+    }
+    
+    func flagTapped(_ number: Int) {
+        if number == correctAnswer {
+            scoreTitle = "Correct"
+        } else {
+            scoreTitle = "Wrong"
+        }
+        
+        showingScore = true
+    }
+    
+    func askQuestion() {
+        countries.shuffle()
+        correctAnswer = Int.random(in: 0...2)
     }
 }
 
